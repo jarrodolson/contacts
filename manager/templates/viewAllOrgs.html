@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block title %}View All Organizations{% endblock %}
+
+{% block content %}
+	<div id="left">
+	<a href="{% url 'manager:addOrg' %}">Add Org</a>
+	{% if orgs|length != 0 %}
+	<table>
+	<thead>
+	<tr>
+		<th>Name</th><th>POC</th><th>Website</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for o in orgs %}
+		<tr>
+			<td><a href="{% url 'manager:viewOrg' o.id %}">{{ o.name }}</a></td>
+			<td>{{ o.primary_contact }}</td>
+			<td>{{ o.website_pk }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	{% endif %}
+	</div>
+	<div id="right">
+	</div>
+	
+{% endblock %}

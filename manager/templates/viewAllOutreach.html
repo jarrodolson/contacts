@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block title %}View All Outreach{% endblock %}
+
+{% block content %}
+	<div id="left">
+	{% if allOutreach|length == 0 %}
+	<p>You have no outreach! Add some <a href="{% url 'manager:addOutreach' %}">here!</a></p>
+	{% else %}
+	<h3>Ongoing Outreach | <a href="{% url 'manager:addOutreach' %}">Add</a></h3>
+			<table>
+				<thead>
+				<tr>
+					<th>Title</th>
+					<th># Interact</th>
+					<th># Contact</th>
+					<th># Events</th>
+					<th># Follow-ups</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for o in allOutreach %}
+					<tr>
+						<td><a href="{% url 'manager:viewOutreach' o.id %}">{{ o.name }}</a></td>
+						<td>{{ o.nInteract }}</td>
+						<td>{{ o.nContact }}</td>
+						<td>{{ o.nEvent }}</td>
+						<td>{{ o.nOpenFu }} Incomplete</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+	{% endif %}
+	</div>
+	<div id="right">
+	<h3>Upcoming Followups</h3>
+			{% if fuTable == None %}
+				<p>There are no upcoming followups</p>
+			{% else %}
+			{% render_table fuTable %}
+			{% endif %}
+	</div>
+	
+{% endblock %}

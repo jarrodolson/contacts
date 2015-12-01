@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+	
+	<div id="left">
+		<div id="top">
+			<h3>Ongoing Outreach</h3>
+			<p><a href="{% url 'manager:viewAllOutreach' %}">View All</a> | <a href="{% url 'manager:addOutreach' %}">Add New</a></p>
+			{% if allOutreach|length == 0 %}
+			<p>Please add some outreach to get a summary view of your efforts</p>
+			{% else %}
+			<table>
+				<thead>
+				<tr>
+					<th>Title</th>
+					<th># Interact</th>
+					<th># Contact</th>
+					<th># Events</th>
+					<th># Follow-ups</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for o in allOutreach %}
+					<tr>
+						<td><a href="{% url 'manager:viewOutreach' o.id %}">{{ o.name }}</a></td>
+						<td>{{ o.nInteract }}</td>
+						<td>{{ o.nContact }}</td>
+						<td>{{ o.nEvent }}</td>
+						<td>{{ o.nOpenFu }} Incomplete</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+		</div>
+
+		<div id="bottom">
+			<h3>Upcoming Events</h3>
+			<p><a href="{% url 'manager:viewAllEvents' %}">View All</a> | <a href="{% url 'manager:addEvent' %}">Add New</a></p>
+			{% if events == None %}
+				<p>There are no upcoming events</p>
+			{% else %}
+				{% render_table events %}
+			{% endif %}
+		</div>
+	</div>
+	
+	
+	<div id="right">
+		<div id="top">
+			<h3>Upcoming Action Items</h3>
+			<p><a href="{% url 'manager:viewAllFollowups' %}">View All</a> | <a href="{% url 'manager:addFollowup' %}">Add New</a></p>
+			{% if fuTable == None %}
+				<p>There are no upcoming action items.</p>
+			{% else %}
+				{% render_table fuTable %}
+			{% endif %}
+		</div>
+		<div id="bottom">
+			<h3>General Stats</h3>
+			<table class="stats">
+			<thead><tr><th>Stat</th><th>Total</th><th>Last 30 Days</tr></thead>
+			<tbody>
+				{% for s in stats %}
+					<tr><td>{{ s.StatName }}</td><td>{{ s.Stat }}</td><td>{{ s.StatRecent|safe }}</td></tr>
+				{% endfor %}
+			</tbody>
+		</div>
+	</div>
+	
+{% endblock %}

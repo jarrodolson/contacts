@@ -1,0 +1,11 @@
+##TODO For Contacts Program
+
+
+
+##todo: use javascript to hide/unhide fields as necessary - https://www.safaribooksonline.com/library/view/javascript-cookbook/9781449390211/ch09s09.html
+##todo: Consider adding comment capability to interactions
+##todo: Add a check for uniqueness of email, phone, name, org, etc.
+##todo: Consider whether we need to add a location for a Contact
+
+DONE: Under Add Organization, website other does not save
+DONE: when adding a job, organization has to have been pre-created... allow to create it on the fly

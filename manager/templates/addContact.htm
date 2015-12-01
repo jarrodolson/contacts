@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Add Contact{% endblock %}
+
+{% block content %}
+	<div id="form">
+	<div id="left">
+		<fieldset>
+		<legend>Add Contact</legend>
+			<form action="" method="post">
+				{% csrf_token %}
+					<legend>Basics</legend>
+						{{ acForm.as_p }}
+					<legend>Job</legend>
+						{{ ajForm.as_p }}
+					<legend>Email</legend>
+						{{ aeForm.as_p }}
+					<legend>Phone</legend>
+						{{ apForm.as_p }}
+					<input type="submit" value="Save" />
+				</div>
+			</form>
+		</fieldset>
+	</div>
+{% endblock %}

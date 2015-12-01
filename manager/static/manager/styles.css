@@ -1,0 +1,132 @@
+form {
+	display: inline;
+}
+
+fieldset{
+	display: inline-block;
+}
+
+input[type=text]{
+	width: 370px;
+}
+
+input[type=url]{
+	width: 370px;
+}
+
+select{
+	width: 370px;
+}
+
+label {
+	display: block;
+}
+
+legend {
+	font-weight: bold;
+}
+
+#content {
+	padding-top: 30px;
+	padding-left: 10px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#left {
+	float: left;
+	width: 49%;
+	margin: 0px;
+	padding: 0px;
+}
+
+#right {
+	float: right;
+	width: 49%;
+	padding: 0px;
+}
+
+#navbar {
+	background-color: #444;
+	width: 100%;
+	position: fixed;
+	top: 0%;
+}
+
+#leftnav {
+	float: left;
+	overflow:hidden;
+}
+
+#rgtnav {
+	float:right;
+	overflow:hidden;
+}
+
+#navbar a {
+  text-decoration: none;
+  color: #fff;
+  display: inline-block;
+  transition: .3s background-color;
+  padding: 10px 15px 9px 15px;
+}
+
+#navbar a:hover {
+  background-color: #005f5f;
+}
+
+#navbar a.active {
+  background-color: #fff;
+  color: #444;
+  cursor: default;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table[class=followups] {
+	width: 80%;
+}
+
+table[class=stats] {
+	width: 80%;
+}
+
+td, th {
+	border: 1px solid #999;
+	padding: 0.5rem;
+	text-align: center;
+}
+
+th {
+	color: #FFFFFF;
+}
+
+th a {
+	color: #FFFFFF;
+}
+
+th:first-child{
+	text-align: left;
+}
+
+tr:nth-child(odd){
+	background: #eee;
+}
+
+thead tr:first-child {
+	background: #444;
+}
+
+tbody tr:hover {
+	background: #888888;
+}
+
+td:first-child {
+	text-align: left;
+}

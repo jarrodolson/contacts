@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block title %}Add Follow-up{% endblock %}
+
+{% block content %}
+	
+	<h2> Sorry, we're under construction! </h2>
+	<div id="form">
+		<fieldset>
+		<legend>Add Follow-up</legend>
+			<form action="" method="post">
+				{% csrf_token %}
+				{{ form.as_p }}
+				<input type="submit" value="Save" />
+			</form>
+		</fieldset>
+	</div>
+	
+{% endblock %}

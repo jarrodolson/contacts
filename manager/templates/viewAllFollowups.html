@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block title %}View All Follow-up Items{% endblock %}
+
+{% block content %}
+	<div id="left">
+	<a href="{% url 'manager:addFollowup' %}">Add Follow-up Item</a>
+	<h2>Items</h2>
+	{% for f in followups %}
+		<h3>{{ f.description }}</h3>
+		<ul>
+			<li><a href="{% url 'manager:markFuComplete' f.id %}">Mark Complete</a></li>
+			<li>Description: {{ f.description }}</li>
+			<li>Assigned to: {{ f.assigned_to }}</li>
+			<li>Associations:
+				<ul>
+					<li>Contact: {{ f.contact_pk }}</li>
+					<li>Event: {{ f.event_pk }}</li>
+				</ul>
+			</li>
+			<li>Due Date: {{ f.date_due }}</li>
+			<li>Due Time: {{ f.time_due }}</li>
+			<li>Comments:
+				{% if f.followup_comment_set.all|length == 0 %}
+				None
+				{% else %}
+				<ul>
+					{% for c in f.followup_comment_set.all %}
+						<li>{{ c.comment }} ({{ c.created_by }}, {{ c.date_create|timesince }} ago)</li>
+					{% endfor %}
+				</ul>
+				</li>
+				{% endif %}
+			<div id="form" class="comment">
+				<form action="" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="fuPk" value="{{ f.id }}">
+					{{ form.as_p }}
+					<input type="submit" value="Save" />
+				</form>
+			</div>
+		</ul>
+		<hr>
+	{% endfor %}
+	</div>
+	<div id="right">
+	</div>
+	
+{% endblock %}

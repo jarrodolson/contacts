@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block title %}View All Contacts{% endblock %}
+
+{% block content %}
+	<div id="left">
+	<a href="{% url 'manager:addContact' %}">Add Contact</a>
+	<table>
+	<thead>
+	<tr>
+		<th>Name</th><th>Job</th><th>Org</th><th># Interact</th><th># Followup</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for c in contacts %}
+	<tr>
+		<td><a href="{% url 'manager:viewContact' c.id %}">{{ c.name }}</a></td>
+		<td>{{ c.job }}</td>
+		<td>{{ c.org }}</td>
+		<td>{{ c.nInteract }}</td>
+		<td>{{ c.nFollowup }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+	</div>
+	<div id="right">
+	</div>
+
+	
+{% endblock %}

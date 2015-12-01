@@ -1,0 +1,34 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Contact Management</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'manager/styles.css' %}" />
+		<!--<link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />-->
+	</head>
+
+    <body>
+	<div id="navbar">
+		<div style="overflow: auto">
+			<div id="leftnav">
+				<a href="{% url 'manager:index' %}"><b>Contact Mgmt App</b></a>
+				<a href="{% url 'manager:viewAllOrgs' %}">Orgs</a>
+				<a href="{% url 'manager:viewAllEvents' %}">Events</a>
+				<a href="{% url 'manager:viewAllContacts' %}">Contacts</a>
+				<a href="{% url 'manager:viewAllOutreach' %}">Outreach</a>
+				<a href="{% url 'manager:viewAllFollowups' %}">Actions</a>
+			</div>
+			<div id="rgtnav">
+				{% if user.is_authenticated %}<a href="/accounts/logout">Hi {{user}}! (Logout)</a>{% else %}<a href="/accounts/login">Login</a>{% endif %}
+			</div>
+		</div>
+	</div>
+	
+	<div id="content">
+		<h1>{% block title %} Something {% endblock %}</h1>
+		{% block content %} {% endblock %}
+	</div>
+	<div id="footer">
+    </body>
+</html>

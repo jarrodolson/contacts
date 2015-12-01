@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block title %}Contact Detail{% endblock %}
+
+{% block content %}
+	<h3>{{contact.first_name}} {{contact.last_name}} | <a href="{% url 'manager:editContact' contact.id %}">Edit</a></h3>
+	
+	<!--<div id="form">
+		<fieldset>
+		{% csrf_token %}
+		{{ addToForm }}
+		<input type="submit" value="Save" />
+	</form>-->
+	<div id="left">
+		<p>{% if contact.notes != "" %}{{ contact.notes }}{% endif %}
+		<ul>
+			<li><b>Jobs</b> | <a href="{% url 'manager:addJobToContact' contact.id %}">Add</a></li>
+			<ul>
+				{% for job in contact.job_set.all %}
+				<li>{{ job.job }}, {{ job.org_pk }} | <a href="{% url 'manager:editContactJob' pk=pk pkForJob=job.id %}?next={% url 'manager:viewContact' contact.id %}">Edit</a></li>
+				{% endfor %}
+			</ul>
+			<li><b>Phone</b> | <a href="{% url 'manager:addPhoneToContact' pk %}?next={% url 'manager:viewContact' contact.id %}">Add</a></li>
+			<ul>
+				{% for phone in contact.phone_set.all %}
+				<li>{{phone.description}}: {{phone.phone}} | <a href="{% url 'manager:editContactPhone' pk=pk pkForPhone=phone.id %}?next={% url 'manager:viewContact' contact.id %}">Edit</a></li>
+				{% endfor %}
+			</ul>
+			<li><b>Email</b> | <a href="{% url 'manager:addEmailToContact' pk %}?next={% url 'manager:viewContact' contact.id %}">Add</a></li>
+			<ul>
+				{% for email in contact.email_set.all %}
+				<li>{{email.description}}: {{email.email}} | <a href="{% url 'manager:editContactEmail' pk=pk pkForEmail=email.id %}?next={% url 'manager:viewContact' contact.id %}">Edit</a></li>
+				{% endfor %}
+			</ul>
+			<li><b>Website</b> | <a href="{% url 'manager:addWebsiteToContact' contact.id %}?next={% url 'manager:viewContact' contact.id %}">Add</a></li>
+			<ul>
+				{% for website in contact.website_set.all %}
+				<li>Website ({{website.description}}): <a href="{{website.website_url}}">{{website.website_url}}</a> | <a href="{% url 'manager:editContactWebsite' pk=pk pkForWebsite=website.id %}?next={% url 'manager:viewContact' contact.id %}">Edit</a></li>
+				{% endfor %}
+			</ul>
+			<li><b>Outreach</b> | <a href="{% url 'manager:addOutreachToContact' pk %}">Add</a></li>
+			<ul>
+				{% for o in contact.outreach_set.all %}
+					<li>{{ o.name }}</li>
+				{% endfor %}
+			</ul>
+			<!--<li><b>Events</b> | <a href="">Add</a></li>
+			<ul>
+				{% for event in contact.event_set.all %}
+				<li>{{event.title}} - {{event.description}} ({{event.location_pk}}) | <a href="">Edit</a></li>
+				<ul>
+					<li>Runs: {{event.date_event_start}} to {{event.date_event_end}}</li>
+				</ul>
+				{% endfor %}
+			</ul>-->
+			<li><b>Interactions</b>
+			<ul>
+				{% for interaction in contact.interaction_set.all %}
+				<li>{{ interaction.notes }} (Related Event: {{interaction.event_pk}}) | <a href="{% url 'manager:editInteraction' contact.id interaction.id %}?next={% url 'manager:viewContact' contact.id %}">Edit</a></li>
+				{% endfor %}
+			</ul>
+			<li><b>Follow-up Items</b> | <a href="{% url 'manager:addFollowupToContact' contact.id %}?next={% url 'manager:viewContact' contact.id %}">Add</a></li>
+			<ul>
+				{% for fu in contact.followup_item_set.all %}
+				<li>{{fu.description}} ({{fu.date_due}}) ({{fu.assigned_to}}) | <a href="{% url 'manager:editContactFollowup' pkForContact=contact.id pk=fu.id %}?next={% url 'manager:viewContact' contact.id %}">Edit</a></li>
+				{% endfor %}
+			</ul>
+			<li><b>Comments</b>:
+				{% if contact.contact_comment_set.all|length == 0 %}
+					None
+				{% else %}
+				<ul>
+					{% for c in contact.contact_comment_set.all %}
+						<li>{{ c.comment }} ({{ c.created_by }}, {{ c.date_create|timesince }} ago)</li>
+					{% endfor %}
+				</ul>
+				</li>
+				{% endif %}
+			<div id="form" class="comment">
+				<form action="" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="cPk" value="{{ contact.id }}">
+					{{ form_comment.as_p }}
+					<input type="submit" value="Save" />
+				</form>
+			</div>
+		</ul>
+	</div>
+	<div id="right">
+		<div id="form">
+			<fieldset>
+			<legend>Add Interaction</legend>
+				<form action="" method="post">
+					{% csrf_token %}
+					<p><a href="{% url 'manager:addEvent' %}?next={% url 'manager:viewContact' contact.id %}">Add new event</a></p>
+					{{ form.as_p }}
+					<input type="submit" value="Save" />
+				</form>
+			</fieldset>
+		</div>
+	</div>
+{% endblock %}

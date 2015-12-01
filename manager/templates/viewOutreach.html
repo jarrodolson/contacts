@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block title %}Outreach Detail{% endblock %}
+
+{% block content %}
+	<h3>{{outreach.name}} | <a href="{% url 'manager:addOutreach' outreach.id %}">Edit</a></h3>
+	<ul>
+		<li>Contacts | <a href="{% url 'manager:addContactToOutreach' outreach.id %}?next={% url 'manager:viewOutreach' outreach.id %}">Add</a></li>
+		<ul>
+			{% if outreach.contact_pk.count == 0 %}
+				<li>None</li>
+			{% else %}
+			{% for c in outreach.contact_pk.all %}
+				<li><a href="{% url 'manager:viewContact' c.id %}">{{ c.first_name }} {{ c.last_name }}</a> ({{ c.getCurrentJob.job }}, {{ c.getCurrentJob.org_pk }})</li>
+				<ul>
+					<li># Interactions: {{ c.interaction_set.count }}</li>
+					<li># Follow-up Items: {{ c.followup_item_set.count }}</li>
+				</ul>
+			{% endfor %}
+			{% endif %}
+		</ul>
+		<li>Events | <a href="{% url 'manager:addEventToOutreach' outreach.id %}?next={% url 'manager:viewOutreach' outreach.id %}">Add</a></li>
+		<ul>
+			{% if outreach.event_pk.count == 0 %}
+				<li>None</li>
+			{% else %}
+				{% for e in outreach.event_pk.all %}
+					<li><a href="">{{ e.title }}</a>: {{ e.date_event_start }} {% if e.date_event_end != "" %}- {{ e.date_event_end }} {% endif %}</li>
+					<ul>
+						<li># Interactions: {{ e.interaction_set.count }}</li>
+						<li># Follow-up Items: {{ e.followup_item_set.count }}</li>
+					</ul>
+				{% endfor %}
+			{% endif %}
+		</ul>
+		<li>Follow-up Items | <a href="{% url 'manager:addFollowupToOutreach' outreach.id %}?next={% url 'manager:viewOutreach' outreach.id %}">Add</a></li>
+		<ul>
+			{% if outreach.follow_pk.count == 0 %}
+				<li>None</li>
+			{% else %}
+				{% for f in outreach.follow_pk.all %}
+					{% if f.complete == False %}
+						<li><a href="">{{f.description}}</a></li>
+						<ul>
+							<li>Due: {{ f.date_due }}</li>
+							<li>Assigned To: {{ f.assigned_to }}</li>
+						</ul>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+		</ul>
+		<li>Comments:
+			{% if outreach.outreach_comment_set.all|length == 0 %}
+				None
+			{% else %}
+			<ul>
+				{% for c in outreach.outreach_comment_set.all %}
+					<li>{{ c.comment }} ({{ c.created_by }}, {{ c.date_create|timesince }} ago)</li>
+				{% endfor %}
+			</ul>
+			</li>
+			{% endif %}
+		<div id="form" class="comment">
+			<form action="" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="oPk" value="{{ outreach.id }}">
+				{{ form_comment.as_p }}
+				<input type="submit" value="Save" />
+			</form>
+		</div>
+	</ul>
+{% endblock %}
